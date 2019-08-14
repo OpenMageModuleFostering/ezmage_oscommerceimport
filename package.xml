@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>Ezmage_OscommerceImport</name>
+    <version>1.7.3</version>
+    <stability>stable</stability>
+    <license>OSL</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Easily import categories and products from an osCommerce store into a Magento website! </summary>
+    <description>A tool that is designed for people who may have outgrown  their current osCommerce platform or want to take the next step in e-commerce  and move to an enterprise level platform. The osCommerce Categories / Products  Migration tool allows you to easily export your products, images and product  descriptions into a new Magento e-commerce store.  Within minutes you can  have your Magento store populated with the products you probably spent hours  inserting into your osCommerce store!</description>
+    <notes>The DataBase Prefix hasn't work on this version yet</notes>
+    <authors><author><name>ezMage</name><user>ezosc</user><email>luis@ezosc.com</email></author></authors>
+    <date>2012-06-04</date>
+    <time>17:51:55</time>
+    <contents><target name="magecommunity"><dir name="Ezmage"><dir name="OscommerceImport"><dir name="Helper"><file name="Data.php" hash="001ce1cd0278e96f0ebf2bcde0f1f740"/></dir><dir name="Model"><dir name="Source"><file name="GetAttributeSets.php" hash="b9b1f50222887f9724419b2e81c8c9bf"/></dir></dir><dir name="controllers"><file name="IndexController.php" hash="95118471d19419757e63fb809e41c136"/></dir><dir name="etc"><file name="config.xml" hash="53ecad3ade04fb22d2e272edbdb0decc"/><file name="system.xml" hash="af31bdd08e50a2a457950aa6ab74e7d9"/></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Ezmage_OscommerceImport.xml" hash="9ffd2089fb62be0b12887a5d1d84d1a9"/></dir></target><target name="magedesign"><dir name="frontend"><dir name="default"><dir name="default"><dir name="template"><dir name="ezmage"><dir name="oscommerceimport"><dir name="_notes"><file name="dwsync.xml" hash="dda7f97949607ebb10b0d4734fe9104b"/></dir><file name="step0.phtml" hash="b2458c73080dedcf4a0acd811f7a4fe3"/><file name="step1.phtml" hash="a4578bb8371691c821202b489657780f"/><file name="step2.phtml" hash="e01fcab81f47b4334cb183b2eb23edc5"/><file name="step3.phtml" hash="145a50cfdec3908b0b2e0926d17d01c0"/><file name="step31.phtml" hash="dbb9189ef42976729aa34b5f2d18dee6"/><file name="step4.phtml" hash="1499ed4a8fda73865913d23af4e7ced1"/><file name="step5.phtml" hash="4d5ab6864b8372a381a1fb6167fdf9d4"/><file name="step6.phtml" hash="a46b3bbc9b6d24bdcfb9d047ce10e4e8"/></dir></dir></dir></dir></dir></dir></target><target name="magemedia"><dir name="Ezmage"><dir name="OscommerceImport"><file name="check-no.jpg" hash="1c9c306222acaf4150291d5f82e15389"/><file name="check-ok.jpg" hash="1a990bbbbead79f7af02883406c420f9"/><file name="step1.png" hash="4ca193b1b5ccc8012ef85c0e62743cf7"/></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.1.0</min><max>6.0.0</max></php></required></dependencies>
+</package>
