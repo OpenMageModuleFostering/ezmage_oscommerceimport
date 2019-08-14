@@ -3,7 +3,7 @@
 <config>
     <modules>
         <Ezmage_OscommerceImport>
-            <version>1.7.3</version>
+            <version>1.7.5</version>
         </Ezmage_OscommerceImport>
     </modules>  
     

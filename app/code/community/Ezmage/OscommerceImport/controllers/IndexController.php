@@ -12,7 +12,8 @@ class Ezmage_OscommerceImport_IndexController extends Mage_Core_Controller_Front
 		Mage::register('image_status4','check-no.jpg');
 		Mage::register('image_status5','check-no.jpg');
 		Mage::register('image_status6','check-no.jpg');
-		Mage::register('image_status7','check-no.jpg');														
+		Mage::register('image_status7','check-no.jpg');
+		Mage::register('image_status8','check-no.jpg');														
 		
 		//check if configuration has values
 		$conf_hostname 			= Mage::getStoreConfig('oscommerceimportconf/oscconfiguration/conf_hostname',Mage::app()->getStore());
@@ -33,7 +34,7 @@ class Ezmage_OscommerceImport_IndexController extends Mage_Core_Controller_Front
 			Mage::register('conf_db',$conf_db);
 			Mage::register('conf_db_username',$conf_db);
 			Mage::register('conf_db_password',$conf_db_password);
-			Mage::register('conf_table_prefix',$conf_table_prefix);
+			//Mage::register('conf_table_prefix',$conf_table_prefix);
 			Mage::register('conf_website',$conf_website);	
 			Mage::register('conf_category',$conf_category);	
 			Mage::register('conf_attribute',$conf_attribute);
@@ -88,6 +89,7 @@ class Ezmage_OscommerceImport_IndexController extends Mage_Core_Controller_Front
 			Mage::unregister('image_status7');
 			Mage::register('image_status7','check-ok.jpg');
 		}																				
+		
 								
 		// Layout Out Put			
 		$this->loadLayout();
@@ -301,12 +303,12 @@ class Ezmage_OscommerceImport_IndexController extends Mage_Core_Controller_Front
 			$readConnection = $resource->getConnection('core_read');
 			$writeConnection = $resource->getConnection('core_write');							
 			$_connection_remote = Mage::getSingleton('core/resource')->createConnection('oscommerce_conection', 'pdo_mysql', $_config);			
-			//$conf_prefix	= Mage::getStoreConfig('oscommerceimportconf/oscconfiguration/conf_prefix',Mage::app()->getStore());
+			$conf_language_id	= Mage::getStoreConfig('oscommerceimportconf/oscconfiguration/conf_language_id',Mage::app()->getStore());
 			
 			////////////////
 			// categories //
 			////////////////			
-			$query = 'select categories.categories_id ,categories.categories_image, categories.parent_id, categories_description.categories_name from categories LEFT JOIN categories_description on categories_description.categories_id = categories.categories_id and categories_description.language_id = 1';
+			$query = 'select categories.categories_id ,categories.categories_image, categories.parent_id, categories_description.categories_name from categories LEFT JOIN categories_description on categories_description.categories_id = categories.categories_id and categories_description.language_id = '.$conf_language_id;
 			$results  = $_connection_remote->fetchAll($query);
 			foreach($results as $row) {
 				// check if category exist
@@ -327,15 +329,19 @@ class Ezmage_OscommerceImport_IndexController extends Mage_Core_Controller_Front
 			//////////////
 			// products //
 			//////////////
-			$query = 'select products_id,products_name from products_description where language_id = 1';
+			$query = 'select products_id,products_name from products_description where language_id = '.$conf_language_id;
 			$results  = $_connection_remote->fetchAll($query);
 			foreach($results as $row) {
 				// check if category exist
 				$sql = "select osc_product_id from ezmage_products where osc_product_id=".$row['products_id'];
 				$list = $readConnection->fetchAll($sql);
 				if (sizeof($list) == 0){
-					$row['products_name'] = str_replace('\"','',$row['products_name']);
-					$sql = 'insert into ezmage_products values('.$row['products_id'].',"'.$row['products_name'].'","","")';
+					//$row['products_name'] = str_replace('\"','',$row['products_name']);
+					//$row['products_name'] = str_replace('"','',$row['products_name']);
+					//$row['products_name'] = str_replace('"','',$row['products_name']);
+					$products_name = mysql_escape_string($row['products_name']);
+					//print $row['products_name'].' - '.mysql_escape_string($row['products_name']);exit;
+					$sql = 'insert into ezmage_products values('.$row['products_id'].',"'.$products_name.'","","")';
 					$writeConnection->query($sql);				
 				}
 			}	
@@ -587,6 +593,7 @@ class Ezmage_OscommerceImport_IndexController extends Mage_Core_Controller_Front
 		
 		$storeId = Mage::getStoreConfig('oscommerceimportconf/mageconfiguration/conf_website',Mage::app()->getStore());
 		$parent_cat = Mage::getStoreConfig('oscommerceimportconf/mageconfiguration/conf_category',Mage::app()->getStore());
+		$conf_language_id	= Mage::getStoreConfig('oscommerceimportconf/oscconfiguration/conf_language_id',Mage::app()->getStore());
 								
 		$_config = $this->setRemoteConectionConfig();
 		// Stop Indexes     
@@ -612,7 +619,7 @@ class Ezmage_OscommerceImport_IndexController extends Mage_Core_Controller_Front
 			foreach($results as $row) {
 				//print $row['osc_product_id'].' => '.$row['osc_product_name'].' => '.$row['mage_product_id'].'<br>';				
 				
-				$product_osc = $this->getProductFromOSC($row['osc_product_id'],$readConnection,$_connection_remote);
+				$product_osc = $this->getProductFromOSC($row['osc_product_id'],$readConnection,$_connection_remote,$conf_language_id);
 				$product_categories_osc = $this->getCategoriesProductFromOSC($row['osc_product_id'],$readConnection,$_connection_remote,$parent_cat);		
 								
 				// some validation
@@ -635,6 +642,9 @@ class Ezmage_OscommerceImport_IndexController extends Mage_Core_Controller_Front
 					$product_osc['products_model'] = $product_osc['products_model'].rand(1111,9999);
 				}
 				
+				if ($product_osc['products_quantity'] < 0){
+					$product_osc['products_quantity'] = 1;
+				}
 
 				//$product = Mage::getModel('catalog/product');
 				$product = new Mage_Catalog_Model_Product();
@@ -1009,13 +1019,17 @@ class Ezmage_OscommerceImport_IndexController extends Mage_Core_Controller_Front
 				}	
 											
 			}
-										
-													
+																							
 			// get import status	
 			$sql = "select osc_order_id from ezmage_orders where order_imported='y'";
 			$list = $readConnection->fetchAll($sql);
 			$importedOrdersTotal = sizeof($list);		
-			Mage::getSingleton('core/session')->setimportedOrdersTotal($importedOrdersTotal);											
+			Mage::getSingleton('core/session')->setimportedOrdersTotal($importedOrdersTotal);
+			
+			// clean table sales_flat_quote if not we can't delete a product
+			$sql = "DELETE FROM sales_flat_quote WHERE customer_is_guest = 0";
+			$writeConnection->query($sql);
+													
 		}
 		catch (Exception $ex) {
 			Mage::register('conection_status','Oscommerce Order ID:'.$row['osc_order_id'].' - '.$ex->getMessage());
@@ -1782,8 +1796,8 @@ class Ezmage_OscommerceImport_IndexController extends Mage_Core_Controller_Front
 	}
 	
 	// Get product Information from oscommerce
-	public function getProductFromOSC($osc_product_id,$readConnection,$_connection_remote){
-			$query = 'select products_description.*,products.* from products left join products_description on products.products_id=products_description.products_id where  products.products_id = '.$osc_product_id.' and  products_description.language_id = 1';
+	public function getProductFromOSC($osc_product_id,$readConnection,$_connection_remote,$conf_language_id){
+			$query = 'select products_description.*,products.* from products left join products_description on products.products_id=products_description.products_id where  products.products_id = '.$osc_product_id.' and  products_description.language_id = '.$conf_language_id;
 			$results  = $_connection_remote->fetchAll($query);			
 			if (sizeof($results) == 1){
 				$product = $results[0];
@@ -1865,7 +1879,7 @@ class Ezmage_OscommerceImport_IndexController extends Mage_Core_Controller_Front
 		
 	// Generate category tree
 	public function tep_get_subcategories(&$categories_array = '', $parent_id = '0',$readConnection) {
-		$languages_id = 1;		
+		//$languages_id = $conf_language_id;		
 		if (!is_array($categories_array)) $categories_array = array();
 		$sql = "select * from ezmage_categories where osc_cat_parent=".(int)$parent_id;
 		$results = $readConnection->fetchAll($sql);
