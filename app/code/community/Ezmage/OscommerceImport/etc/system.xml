@@ -75,16 +75,7 @@
                             <show_in_store>1</show_in_store>
 														<validate>required-entry</validate>
                         </conf_password>
-												
-                        <conf_prefix translate="label">
-                            <label>DataBase Prefix</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>6</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </conf_prefix>
-												
+																								
                         <conf_imageurl translate="label">
                             <label>Image URL Location</label>
                             <frontend_type>text</frontend_type>
@@ -94,8 +85,7 @@
                             <show_in_store>1</show_in_store>
 														<validate>required-entry validate-url</validate>
                             <comment><![CDATA[osCommerce Image Folder url ex: http://yourstore.com/images/ ]]></comment>														
-                        </conf_imageurl>																																				
-																								
+                        </conf_imageurl>																																																																																				
                     </fields>
                 </oscconfiguration>   
 								
@@ -139,18 +129,52 @@
                             <show_in_store>1</show_in_store>
 														<validate>required-entry</validate>
                         </conf_attribute>	
-												
-                        <conf_totalperimport translate="label">
-                            <label>Total Products</label>
+
+                        <conf_totalperimportcat translate="label">
+                            <label>Total Categories Per Batch</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
 														<validate>required-entry validate-number</validate>
+                            <comment><![CDATA[We recommend to do 20 products per batch]]></comment>														
+                        </conf_totalperimportcat>
+																								
+                        <conf_totalperimport translate="label">
+                            <label>Total Products Per Batch</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+														<validate>required-entry validate-number</validate>
                             <comment><![CDATA[We recommend to do 50 products per batch]]></comment>														
                         </conf_totalperimport>
-																																																																																			
+																							
+                        <conf_totalperimportcustomer translate="label">
+                            <label>Total Customers Per Batch</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+														<validate>required-entry validate-number</validate>
+                            <comment><![CDATA[We recommend to do 50 products per batch]]></comment>														
+                        </conf_totalperimportcustomer>
+
+                        <conf_totalperimportorder translate="label">
+                            <label>Total Orders Per Batch</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+														<validate>required-entry validate-number</validate>
+                            <comment><![CDATA[We recommend to do 50 products per batch]]></comment>														
+                        </conf_totalperimportorder>
+
+																																																																																															
                     </fields>
 										
 										
@@ -163,7 +187,7 @@
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>										
-										<comment><![CDATA[The URL will be http://www.<b>your-magento-domain.com</b>/oscommerceimport]]></comment>										
+										<comment><![CDATA[The URL will be http://www.<b>your-magento-domain.com</b>/oscommerceimport or http://www.<b>your-magento-domain.com</b>/index.php/oscommerceimport]]></comment>										
                 </oscommercebegin>  
 																																                                             
             </groups>

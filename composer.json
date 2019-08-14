@@ -3,7 +3,7 @@
     "type": "magento-module",
     "license": "OSL",
     "homepage": "",
-    "description": "Easily import categories and products from an osCommerce store into a Magento website! ",
+    "description": "Easily import categories/products/customers and orders from an osCommerce store into a Magento website! ",
     "authors": [
     {
         "name": "ezMage",
