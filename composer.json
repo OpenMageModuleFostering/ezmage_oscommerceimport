@@ -1,7 +1,7 @@
 {
-    "name": "OpenMageModuleFostering\/Ezmage_OscommerceImport",
+    "name": "openmage-module-fostering\/ezmage_oscommerceimport",
     "type": "magento-module",
-    "license": "OSL",
+    "license": "OSL-3.0",
     "homepage": "",
     "description": "Easily import categories\/products\/customers and orders from an osCommerce store into a Magento website! ",
     "authors": [
